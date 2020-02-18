@@ -4,6 +4,7 @@ package integration
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
@@ -264,6 +265,14 @@ func TestRun_WithDockerEngine(t *testing.T) {
 				// tag our image to something unique
 				err = cli.ImageTag(ctx, tc.imageTag, tc.testfile)
 				require.NoError(t, err, tc.name)
+
+				imgs, err := cli.ImageList(ctx, types.ImageListOptions{
+					All: true,
+				})
+				require.NoError(t, err)
+				for _, img := range imgs {
+					fmt.Println(img.RepoTags)
+				}
 			}
 
 			of, err := ioutil.TempFile("", "integration-docker-engine-output-file-*")

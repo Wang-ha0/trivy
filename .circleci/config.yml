@@ -34,6 +34,9 @@ jobs:
       - setup_remote_docker:
           version: << parameters.docker_version >>
       - run:
+          name: setup docker
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run:
           name: Integration Test
           command: make test-integration
   release:
